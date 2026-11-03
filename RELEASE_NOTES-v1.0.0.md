@@ -102,8 +102,8 @@ Get-FileHash GimbalX-Report-1.0.0-win64.zip -Algorithm SHA256
 
 ## 许可
 
-源码可见，商业使用需正式授权；条款见 [LICENSE](LICENSE)。第三方组件见
-[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
+本软件为商业授权产品，条款见 [授权说明](docs/licensing.md)。第三方组件见
+[THIRD-PARTY-LICENSES.txt](THIRD-PARTY-LICENSES.txt)。
 
 ---
 
