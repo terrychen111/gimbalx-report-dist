@@ -118,15 +118,3 @@
 授权绑定机器码，同一份 `.lic` 用在同一台服务器上是允许的；但**账号**始终一对一：
 同一账号在第二台设备登录会踢掉第一台。多人使用请为每人建独立账号，并按人数购买席位
 （例如 5 个人同时用就签 `--seats 5`）。这样既方便，也避免“买一份全公司共享”的滥用。
-
-## 8. 给二次开发者
-
-- 授权逻辑集中在 `backend/app/core/licensing.py` 与 `backend/app/api/v1/license.py`，其它模块只读取
-  `licensing.is_trial()` / `licensing.trial_mark(page_count)` / `licensing.seat_limit()`。
-- **发布包里的这些模块是 Cython 编译产物**（`app/core/{licensing,auth,sessions,dependencies}`、
-  `app/api/v1/{auth,license}` 对应 `.pyd`/`.so`，包内不含同名 `.py`），用于防止改文本绕过授权。
-  源码仓库仍保留 `.py` 便于开发；用官方 `scripts/build-single-*` 构建时会自动编译（`--skip-compiled-core`
-  可跳过，但不建议用于对外发布）。Cython 编译要求：Windows 需 VS Build Tools，Linux/macOS 需 gcc/clang。
-- 公钥常量 `PUBLIC_KEY_B64` 不应改成可被环境变量覆盖；签发私钥永不入库（`.gitignore` 已排除 `backend/.secrets/`）。
-- 签发带席位的授权：`python -m app.cli lic-issue --machine <机器码> --licensee "客户名" --seats 5`（默认 1，0=不限）。
-- 自行构建安装包时，请保留授权、水印与席位逻辑，否则视为违反 [LICENSE](../LICENSE)。
