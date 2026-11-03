@@ -58,7 +58,7 @@ docker compose -f deploy/docker/docker-compose.single.yml --env-file .env.single
 离线签发不需要激活服务器，程序不会外连任何授权服务。发布包里的授权/会话校验核心是 Cython 编译的二进制模块，不提供可改的 `.py`。
 
 <p align="center">
-  <img src="frontend/public/assets/wechat-qr.png" alt="作者微信二维码" width="180">
+  <img src="assets/wechat-qr.png" alt="作者微信二维码" width="180">
   <br>
   <em>加作者微信咨询授权 / 获取正式版</em>
 </p>
