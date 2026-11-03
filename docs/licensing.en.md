@@ -107,18 +107,3 @@ The setup wizard's second step accepts a license too, which is handy for pre-pro
 - **Can one license/account be shared with the whole company?** — The license is bound to machine codes, so
   using one `.lic` on one server is fine; accounts are one-to-one — signing in with the same account on a
   second device signs the first out. Create one account per person and buy the matching seats.
-
-## 8. For contributors
-
-- Licensing lives in `backend/app/core/licensing.py` and `backend/app/api/v1/license.py`; other modules only
-  call `licensing.is_trial()`, `licensing.trial_mark(page_count)` and `licensing.seat_limit()`.
-- **Released packages ship these modules as Cython binaries** (`app/core/{licensing,auth,sessions,dependencies}`
-  and `app/api/v1/{auth,license}` as `.pyd`/`.so`, with the matching `.py` files removed) so the checks cannot
-  be edited as text. The source tree keeps the `.py` files; the official `scripts/build-single-*` scripts
-  compile them (skip with `--skip-compiled-core`, not recommended for public releases). Compiling needs
-  VS Build Tools on Windows and gcc/clang on Linux/macOS.
-- Issue a seat-limited license with
-  `python -m app.cli lic-issue --machine <machine-code> --licensee "ACME" --seats 5` (default 1, 0 = unlimited).
-- `PUBLIC_KEY_B64` must not become environment-overridable, and the signing key never enters the repository
-  (`backend/.secrets/` is gitignored).
-- Builds must keep the licensing, watermark and seat logic intact; removing it violates [LICENSE](../LICENSE).
