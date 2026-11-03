@@ -28,7 +28,7 @@ docker compose -f deploy/docker/docker-compose.single.yml --env-file .env.single
 # 打开 http://<主机>:8090
 ```
 
-详细步骤见 [docs/install-single-windows.md](docs/install-single-windows.md)、[docs/install-single-docker.md](docs/install-single-docker.md)。
+详细步骤见 [docs/install-single-windows.md](install-single-windows.md)、[docs/install-single-docker.md](install-single-docker.md)。
 
 ## 试用版与正式版
 
@@ -63,7 +63,7 @@ docker compose -f deploy/docker/docker-compose.single.yml --env-file .env.single
   <em>加作者微信咨询授权 / 获取正式版</em>
 </p>
 
-授权说明详见 [docs/licensing.md](docs/licensing.md)。
+授权说明详见 [docs/licensing.md](licensing.md)。
 
 ## 下载形态
 
@@ -76,8 +76,8 @@ docker compose -f deploy/docker/docker-compose.single.yml --env-file .env.single
 | 服务器版（设计端 + 运行端） | 生产环境、MySQL 8 MGR、只读运行端 | `Dockerfile`、`docker-compose.prod.yml`、`deploy/linux/*` |
 
 单机各形态都是**同一套代码**，可随时迁移到服务器版：把 `data/`（SQLite 或导出 SQL）和存储目录带走即可。
-Linux 免安装包安装步骤见 [docs/install-single-linux.md](docs/install-single-linux.md)；
-全部安装形态（含不用 Docker 的源码安装、macOS、Alpine）见 [docs/install-options.md](docs/install-options.md)。
+Linux 免安装包安装步骤见 [docs/install-single-linux.md](install-single-linux.md)；
+全部安装形态（含不用 Docker 的源码安装、macOS、Alpine）见 [docs/install-options.md](install-options.md)。
 
 ## 功能概览
 
@@ -113,8 +113,8 @@ cd frontend && npm install && npm run dev
 
 ## 许可
 
-源码可见，商业使用需获得正式授权；试用条款见 [LICENSE](LICENSE)。第三方组件许可见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
+本软件为商业授权产品，试用条款见 [授权说明](licensing.md)；第三方组件许可见 [THIRD-PARTY-LICENSES.txt](../THIRD-PARTY-LICENSES.txt)。
 
 ## 安全
 
-漏洞请私下联系作者（不要开公开 Issue），见 [SECURITY.md](SECURITY.md)。
+发现安全问题请私下联系作者（不要开公开 Issue），联系方式见 [授权说明](licensing.md)。
