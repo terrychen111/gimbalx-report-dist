@@ -1,7 +1,7 @@
 # GimbalX Report（万向报表）v1.0.0
 
-> 产品名为 **GimbalX Report / 万向报表**。功能与授权体系与既有版本一致，
-> 安装包、目录、服务名、授权编号前缀均已按此品牌命名。
+> 本版起产品更名为 **GimbalX Report / 万向报表**（原 qRptDesigner）。功能与授权体系不变：
+> 安装包、目录、服务名、授权编号前缀随之更新，详见文末「更名与兼容」。
 
 首个公开版本：单机版 / Docker 单容器 / 服务器版共用同一套代码，试用与正式版只差一份授权文件。
 单机版提供 **Windows 与 Linux 两种“不用 Docker”的免安装包**，macOS 构建脚本随源码提供。
@@ -92,6 +92,21 @@ sha256sum -c SHA256SUMS
 Get-FileHash GimbalX-Report-1.0.0-win64.zip -Algorithm SHA256
 ```
 
+## 更名与兼容（v1.0.0）
+
+| 项目 | 旧 | 新 |
+|---|---|---|
+| 产品名 | qRptDesigner | GimbalX Report / 万向报表 |
+| 安装包与目录 | `qRptDesigner-1.0.0-*` | `GimbalX-Report-1.0.0-*` |
+| systemd / launchd | `qrpt-designer` / `com.qrpt.designer` | `gimbalx-report` / `com.gimbalx.report` |
+| Windows 服务 | `qRptDesigner` | `GimbalXReport` |
+| 授权编号前缀 | `QRPT-…`（历史授权**继续可用**） | `GMBX-…` |
+
+- 内部标识按兼容性保留、**不影响使用**：环境变量 `QRPT_*`、SQLite 文件名 `qrpt.db`、MySQL 库名
+  `qrpt` / `qrpt_runtime`、API Key 前缀 `qrpt_`；升级时无需改 `.env`。
+- 从旧包升级：解压新包 → 把旧目录的 `data/` 与 `.env` 复制过来 → 若注册过服务，按新服务名重装
+  （`tools/install-service.sh` / `install-service.bat`）。
+
 ## 已知限制
 
 - 单机版默认监听 `0.0.0.0:8090`（同网段可访问）；对公网请用服务器版 + HTTPS 反代，并先改管理员密码。
@@ -102,8 +117,8 @@ Get-FileHash GimbalX-Report-1.0.0-win64.zip -Algorithm SHA256
 
 ## 许可
 
-本软件为商业授权产品，条款见 [授权说明](docs/licensing.md)。第三方组件见
-[THIRD-PARTY-LICENSES.txt](THIRD-PARTY-LICENSES.txt)。
+源码可见，商业使用需正式授权；条款见 [LICENSE](LICENSE)。第三方组件见
+[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
 
 ---
 
@@ -124,6 +139,22 @@ reinstall, no activation server, no telemetry.
   or use Docker Desktop / run from source.
 - All forms (including Docker-free source installs) are compared in `docs/install-options.md`.
 
-Renaming note: package names, service names and license serial prefixes changed to GimbalX Report;
-existing `QRPT-…` license serials remain valid, and internal identifiers (`QRPT_*` env vars,
-`qrpt.db`, MySQL database names, `qrpt_` API-key prefix) are kept for upgrade compatibility.
+## Rebuild 2026-11-03 (same version, new package)
+
+v1.0.0 was re-packed to fix a Windows-only defect in the shipped launcher:
+
+- `start.bat` used LF line endings, so `cmd.exe` failed with errors like
+  `'l' is not recognized` / `'hon.exe' is not recognized` right after the user unzipped;
+- the same file had an unescaped `|` inside an `echo` line, which `cmd.exe` treated as a pipe
+  (`'局域网' is not recognized`), and it was written as GBK while the script switched the console
+  to UTF-8 (`chcp 65001`), garbling the Chinese banner.
+
+Both are fixed: batch files are now written as UTF-8 without BOM with CRLF line endings and no bare pipe.
+Package docs were refreshed at the same time (`docs/licensing.md` no longer has the "secondary
+development" section, and the README QR image now ships as `docs/assets/wechat-qr.png`).
+
+- New Windows package SHA256: `bba16f37a14f347db97a4d870c91eb3de0fdb60279b916b075c251dc1cb85212`
+- Linux tarball is unchanged: `6e5009891105176f67fc47bedebf4dc5080fd0505c8e09455460c1014b0a53c3`
+
+If you already downloaded the old zip, please download again — the old one cannot start on Windows
+by double-clicking `start.bat`.
