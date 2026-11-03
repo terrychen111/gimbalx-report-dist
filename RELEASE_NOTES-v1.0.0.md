@@ -92,21 +92,6 @@ sha256sum -c SHA256SUMS
 Get-FileHash GimbalX-Report-1.0.0-win64.zip -Algorithm SHA256
 ```
 
-## 更名与兼容（v1.0.0）
-
-| 项目 | 旧 | 新 |
-|---|---|---|
-| 产品名 | qRptDesigner | GimbalX Report / 万向报表 |
-| 安装包与目录 | `qRptDesigner-1.0.0-*` | `GimbalX-Report-1.0.0-*` |
-| systemd / launchd | `qrpt-designer` / `com.qrpt.designer` | `gimbalx-report` / `com.gimbalx.report` |
-| Windows 服务 | `qRptDesigner` | `GimbalXReport` |
-| 授权编号前缀 | `QRPT-…`（历史授权**继续可用**） | `GMBX-…` |
-
-- 内部标识按兼容性保留、**不影响使用**：环境变量 `QRPT_*`、SQLite 文件名 `qrpt.db`、MySQL 库名
-  `qrpt` / `qrpt_runtime`、API Key 前缀 `qrpt_`；升级时无需改 `.env`。
-- 从旧包升级：解压新包 → 把旧目录的 `data/` 与 `.env` 复制过来 → 若注册过服务，按新服务名重装
-  （`tools/install-service.sh` / `install-service.bat`）。
-
 ## 已知限制
 
 - 单机版默认监听 `0.0.0.0:8090`（同网段可访问）；对公网请用服务器版 + HTTPS 反代，并先改管理员密码。
