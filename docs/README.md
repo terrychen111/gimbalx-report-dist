@@ -103,3 +103,13 @@ docs/             安装、授权、部署文档
 ## 安全
 
 发现安全问题请私下联系作者（不要开公开 Issue），联系方式见 [授权说明](licensing.md)。
+
+## 教程
+
+| # | 教程 | 内容 |
+|---|---|---|
+| 1 | [10 分钟做出第一张报表](tutorials/01-quickstart-csv.md) | 不装数据库，用 CSV 走通「建报表 → 拖带区 → 导 PDF」 |
+| 2 | [连 MySQL 做分组小计报表](tutorials/02-mysql-grouped-report.md) | 数据源、SQL 参数、组头组脚、小计总计、条件样式 |
+| 3 | [交叉表：区域 × 月份](tutorials/03-crosstab.md) | 行/列/值配置、行列合计、空值处理 |
+| 4 | [主从报表：订单 + 明细](tutorials/04-subreport-master-detail.md) | 子报表、参数传递、禁止跨页断开 |
+| 5 | [导出与打印](tutorials/05-export-and-print.md) | 页面设置、页码、PDF 字体、Excel 保真、批量与定时 |
