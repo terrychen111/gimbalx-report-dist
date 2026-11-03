@@ -7,8 +7,6 @@
 - 数据库：SQLite（单机）或 MySQL 8（服务器）
 - 部署：Windows / Linux / macOS 单机免安装包（内置运行时）、单容器 Docker、Linux systemd、双机（设计端 + 运行端）
 
-> English README: [README.en.md](README.en.md)
-
 ## 30 秒上手（Windows 单机版）
 
 1. 下载 `GimbalX-Report-<版本>-win64.zip`，解压到任意目录（不要放 C:\Program Files）。
@@ -97,19 +95,6 @@ samples/          可导入示例报表、嵌入页、REST 调用清单（node s
 scripts/          本地开发、打包、发布树导出
 docs/             安装、授权、部署文档
 ```
-
-## 开发
-
-```bash
-# 后端（端口 8006，本仓库约定）
-cd backend && pip install -e ".[dev]"
-uvicorn app.main:app --reload --port 8006
-
-# 前端（5173，代理 /api → 8006）
-cd frontend && npm install && npm run dev
-```
-
-常见问题、接口说明见 `docs/`。二次开发请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 ## 许可
 
