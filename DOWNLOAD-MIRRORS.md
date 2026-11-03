@@ -49,7 +49,7 @@ copy /b "GimbalX-Report-1.0.0-linux-x86_64.tar.gz.part01" + "GimbalX-Report-1.0.
 
 ```powershell
 Get-FileHash .\GimbalX-Report-1.0.0-win64.zip -Algorithm SHA256
-# d810edde6f1bdbfa2e69f67b3e950dec253a996626661d3aad716f5b43bf02ff
+# bba16f37a14f347db97a4d870c91eb3de0fdb60279b916b075c251dc1cb85212
 ```
 
 ## 说明
