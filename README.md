@@ -6,6 +6,11 @@
 
 > 本仓库只发布**编译打包后的安装包与文档**，源代码为商业私有，不在此公开。
 
+**国内下载**（GitHub 慢或打不开时用这些）：
+[Gitee](https://gitee.com/szliren/gimbalx-report-dist/releases/tag/v1.0.0) ·
+[AtomGit](https://atomgit.com/terrychen19710516/gimbalx-report-dist/releases/tag/v1.0.0) ·
+详细说明见 [DOWNLOAD-MIRRORS.md](DOWNLOAD-MIRRORS.md)
+
 ## 下载
 
 | 文件 | 适用 | 大小 |
