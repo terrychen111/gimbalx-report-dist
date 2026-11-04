@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GimbalX Report 万向报表 — 解压即用的类 Excel 报表设计器</title>
+<meta name="description" content="解压即用的 Web 报表设计器：不用装 Java、不用 Docker、不用数据库中间件。类 Excel 带状设计，连 MySQL / Oracle / SQL Server / PostgreSQL / ClickHouse，导出 PDF / Excel / Word / SVG / HTML。支持内网私有化部署、离线授权。">
+<meta name="keywords" content="报表工具,报表设计器,类Excel报表,免安装报表,私有化报表,内网报表,离线部署报表,单机报表软件,Web报表设计">
+<meta property="og:title" content="GimbalX Report 万向报表 — 解压即用的报表设计器">
+<meta property="og:description" content="不用装环境，解压双击就能做类 Excel 的复杂报表，导出 PDF/Excel/Word。内网可用、离线授权。">
+<meta property="og:image" content="assets/02-designer.png">
+<style>
+:root{
+  --ink:#0f172a; --ink-2:#334155; --ink-3:#64748b; --line:#e2e8f0;
+  --brand:#1f6feb; --brand-dark:#1554b8; --bg:#f8fafc; --card:#fff;
+  --ok:#0f9d58; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+header.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+.brand .dot{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#1f6feb,#4f9dff);display:grid;place-items:center;color:#fff;font-size:14px}
+header.nav nav a{margin-left:20px;color:var(--ink-2);font-size:14px}
+header.nav nav a:hover{color:var(--brand);text-decoration:none}
+
+/* hero */
+.hero{padding:64px 0 40px;background:
+  radial-gradient(900px 420px at 12% -10%,#e6f0ff 0%,transparent 60%),
+  radial-gradient(700px 380px at 92% 0%,#eafaf1 0%,transparent 55%)}
+.hero h1{font-size:40px;line-height:1.28;margin:0 0 14px;letter-spacing:-.6px}
+.hero h1 em{font-style:normal;color:var(--brand)}
+.hero p.lead{font-size:17px;color:var(--ink-2);margin:0 0 26px;max-width:760px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:600;font-size:15px;border:1px solid transparent;transition:.15s}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-dark)}
+.btn-ghost{background:#fff;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:#c7d2e0}
+.hero .meta{margin-top:16px;font-size:13px;color:var(--ink-3)}
+.shot{margin:36px 0 0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:0 18px 50px -18px rgba(15,23,42,.35);background:#fff}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-size:12.5px;color:var(--ink-3);padding:9px 14px;background:#fff;border-top:1px solid var(--line)}
+
+/* sections */
+section{padding:56px 0}
+section.alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+h2{font-size:26px;margin:0 0 8px;letter-spacing:-.3px}
+h2 + .sub{color:var(--ink-3);margin:0 0 28px;font-size:15px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.card h3{margin:0 0 8px;font-size:16.5px}
+.card p{margin:0;color:var(--ink-2);font-size:14.5px}
+.card .tag{display:inline-block;font-size:12px;color:var(--brand);background:#eaf2ff;border-radius:999px;padding:2px 9px;margin-bottom:10px}
+
+table{width:100%;border-collapse:collapse;font-size:14.5px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f1f5f9;font-weight:600;font-size:13.5px;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+.tick{color:var(--ok);font-weight:700}
+.cross{color:#94a3b8}
+
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+.shots figure{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.shots img{display:block;width:100%;height:auto}
+.shots figcaption{font-size:12.5px;color:var(--ink-3);padding:8px 12px;border-top:1px solid var(--line)}
+
+.dl{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.dl .card{display:flex;flex-direction:column;gap:10px}
+.dl .size{font-size:13px;color:var(--ink-3)}
+.mirrors{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.mirrors a{font-size:13.5px;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink-2)}
+.mirrors a:hover{border-color:var(--brand);color:var(--brand);text-decoration:none}
+
+details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px}
+details summary{cursor:pointer;font-weight:600;font-size:15px}
+details p{margin:10px 0 0;color:var(--ink-2);font-size:14.5px}
+code{background:#f1f5f9;border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+pre{background:#0f172a;color:#e6edf7;padding:14px 16px;border-radius:10px;overflow:auto;font-size:13px;line-height:1.6}
+pre code{background:none;color:inherit;padding:0}
+
+.qr{display:flex;gap:20px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.qr img{width:132px;height:132px;border-radius:10px;border:1px solid var(--line)}
+.qr .t{font-weight:600;margin-bottom:4px}
+.qr .d{font-size:14px;color:var(--ink-2);margin:0}
+
+footer{border-top:1px solid var(--line);padding:28px 0 46px;color:var(--ink-3);font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
+
+@media (max-width:820px){
+  .grid3,.dl,.shots{grid-template-columns:1fr}
+  .hero h1{font-size:29px}
+  header.nav nav{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="brand"><span class="dot">G</span>GimbalX Report<span style="font-weight:400;color:var(--ink-3);font-size:13px">万向报表</span></div>
+    <nav>
+      <a href="#why">为什么选它</a>
+      <a href="#features">功能</a>
+      <a href="#compare">对比</a>
+      <a href="#download">下载</a>
+      <a href="#faq">常见问题</a>
+      <a href="#license">授权</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>解压即可用的<em>类 Excel 报表设计器</em><br>不用装 Java，不用 Docker，不用中间件</h1>
+    <p class="lead">
+      浏览器里拖拽设计带区（Band）报表，连你现有的 MySQL / Oracle / SQL Server / PostgreSQL / ClickHouse，
+      预览分页，导出 PDF / Excel / Word / SVG / HTML。整个程序就是一个压缩包，<strong>内置运行时，拷到内网机器上双击就能跑</strong>。
+    </p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#download">下载 Windows 版（79 MB）</a>
+      <a class="btn btn-ghost" href="#download">Linux 版 / 其他形态</a>
+    </div>
+    <div class="meta">Windows 10/11 x64 · Linux x86_64（glibc ≥ 2.17）· 免安装 · 试用不限期、不锁功能 · 数据不出内网</div>
+
+    <figure class="shot">
+      <img src="assets/02-designer.png" alt="GimbalX Report 报表设计器界面：带区画布、组件面板、属性面板">
+      <figcaption>设计器：左侧字典面板选字段，中间按住拖拽排版，右侧属性面板改样式；顶部功能区按「报表 / 组件 / 组合 / 预览」分组。</figcaption>
+    </figure>
+  </div>
+</div>
+
+<section id="why">
+  <div class="wrap">
+    <h2>三个别人很难同时做到的</h2>
+    <p class="sub">不是功能更多，是<strong>落地更省事</strong>——这三条决定了你能不能今天就在客户现场把它跑起来。</p>
+    <div class="grid3">
+      <div class="card">
+        <span class="tag">零环境</span>
+        <h3>拷过去就能跑</h3>
+        <p>Windows 包 79 MB、Linux 包 157 MB，内置 CPython 运行时、网页前端和数据库，解压双击 <code>start.bat</code> / <code>./start.sh</code>，浏览器打开 <code>127.0.0.1:8090</code> 就能设计报表。不用装 Java、不用装 Python、不用 Docker，也不会动客户机器上的任何全局组件。</p>
+      </div>
+      <div class="card">
+        <span class="tag">类 Excel</span>
+        <h3>会 Excel 就会用</h3>
+        <p>报表头 / 页眉 / 列头 / 数据区 / 组头组脚 / 页脚 / 报表尾，一套带区模型；文本、表格带、交叉表、图表、条码二维码、子报表都是拖进去的元素。几乎零学习成本。</p>
+      </div>
+      <div class="card">
+        <span class="tag">内网</span>
+        <h3>整条链路离线</h3>
+        <p>授权是离线 <code>.lic</code> 文件，按机器码绑定、Ed25519 签名验签，<strong>不联网、不激活、不回传任何数据</strong>。适合数据不能出内网的制造、医疗、政企场景。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="features">
+  <div class="wrap">
+    <h2>功能一览</h2>
+    <p class="sub">只列已经能用、且我们自己每天在用的部分。</p>
+    <table>
+      <tr><th style="width:150px">能力</th><th>说明</th></tr>
+      <tr><td>设计器</td><td>带区布局、标尺吸附、多选对齐与分布、层级前后、组合/解组、撤销重做、格式刷、版本管理、水印设置、参数管理</td></tr>
+      <tr><td>数据类型</td><td>文本、图片、线条、矩形、形状、表格带、交叉表、图表、条码 / 二维码、数据标签、子报表</td></tr>
+      <tr><td>数据源</td><td>MySQL、PostgreSQL、SQL Server、Oracle、ClickHouse、ODBC，以及 CSV / Excel / JSON / XML 文件；多数据源之间用 DuckDB 做内存 JOIN</td></tr>
+      <tr><td>表达式</td><td>模板级计算字段、<code>IIF()</code> / <code>SUM()</code> / <code>COUNT()</code> 等函数、条件样式（按值变色、数据条）</td></tr>
+      <tr><td>输出</td><td>分页预览；PDF（矢量）、Excel、Word、RTF、SVG、HTML；数据导出 CSV / JSON / XML（不受试用水印影响）</td></tr>
+      <tr><td>运行端</td><td>只读浏览页、Embed 短时 Token 嵌到自己系统、客户与授权管理、调用日志、审计日志、定时任务</td></tr>
+      <tr><td>部署形态</td><td>Windows / Linux 免安装包、单容器 Docker、systemd 常驻、设计端 + 运行端双机（MySQL 8）</td></tr>
+    </table>
+
+    <div class="shots">
+      <figure><img src="assets/03-preview.png" alt="预览：分页渲染的报表"><figcaption>预览：按最终分页结果渲染，导出与预览同源，所见即所得。</figcaption></figure>
+      <figure><img src="assets/04-preview-toolbar.png" alt="预览工具栏：导出格式选择"><figcaption>预览页签里直接选格式导出：Excel / Word / PDF / SVG / CSV / JSON / XML。</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <h2>和其他几种做法比</h2>
+    <p class="sub">只对比「能不能在你的场景里跑起来」，不比较功能数量——功能多少看需求，落地成本看环境。</p>
+    <table>
+      <tr>
+        <th style="width:180px">对比项</th>
+        <th>GimbalX Report</th>
+        <th>传统 Java 报表平台</th>
+        <th>开源报表库（自建）</th>
+        <th>BI 看板工具</th>
+      </tr>
+      <tr><td>部署前提</td><td class="tick">解压即用，无需任何运行时</td><td class="cross">要 JDK + 容器 + 数据库</td><td class="cross">要自己写代码集成</td><td class="cross">通常要装服务端/连公网</td></tr>
+      <tr><td>内网离线</td><td class="tick">完全离线，授权也不联网</td><td>可离线，但授权/激活常需联网</td><td class="tick">可离线</td><td class="cross">多数依赖云端</td></tr>
+      <tr><td>复杂中式报表</td><td class="tick">带区 + 交叉表 + 子报表</td><td class="tick">强</td><td class="cross">要自己实现</td><td class="cross">弱，偏图表</td></tr>
+      <tr><td>导出保真</td><td class="tick">PDF 矢量 / Excel / Word</td><td class="tick">强</td><td class="cross">看库的能力</td><td class="cross">一般只有图片/PDF</td></tr>
+      <tr><td>上手成本</td><td class="tick">会 Excel 就能上手</td><td class="cross">要培训</td><td class="cross">要开发</td><td>较低</td></tr>
+      <tr><td>交付给客户现场</td><td class="tick">U 盘拷一个 zip</td><td class="cross">要装一堆依赖</td><td class="cross">要部署代码</td><td class="cross">要开通账号</td></tr>
+      <tr><td>预算量级</td><td class="tick">按席位，小团队也用得起</td><td class="cross">项目制，通常数十万起</td><td class="tick">免费但人力成本高</td><td>按账号订阅</td></tr>
+    </table>
+    <p style="font-size:13px;color:var(--ink-3);margin-top:14px">
+      说明：表格描述的是「典型情况」，各家产品差异很大；具体选型请以你自己的环境和试用结果为准。
+    </p>
+  </div>
+</section>
+
+<section class="alt" id="download">
+  <div class="wrap">
+    <h2>下载</h2>
+    <p class="sub">三个通道内容完全一致，同一套 SHA256。国内优先用前两个。</p>
+
+    <div class="dl">
+      <div class="card">
+        <h3>Windows 10 / 11 x64</h3>
+        <p>解压 → 双击 <code>start.bat</code> → 浏览器打开 <code>http://127.0.0.1:8090</code> → 首次进入初始化向导创建管理员。</p>
+        <div class="size">GimbalX-Report-1.0.0-win64.zip · 79.4 MB</div>
+        <a class="btn btn-primary" href="https://gitee.com/szliren/gimbalx-report-dist/releases/download/v1.0.0/GimbalX-Report-1.0.0-win64.zip">下载 Windows 版</a>
+      </div>
+      <div class="card">
+        <h3>Linux x86_64</h3>
+        <p>解压 → <code>./start.sh</code> → 浏览器打开 <code>http://127.0.0.1:8090</code>。glibc ≥ 2.17（CentOS 7 / Ubuntu 16.04+），自带 CPython 3.12。</p>
+        <div class="size">GimbalX-Report-1.0.0-linux-x86_64.tar.gz.part01 + .part02 · 90.0 + 66.8 MB（需合并）</div>
+        <a class="btn btn-primary" href="https://gitee.com/szliren/gimbalx-report-dist/releases/download/v1.0.0/GimbalX-Report-1.0.0-linux-x86_64.tar.gz.part01">下载 part01</a>
+        <a class="btn btn-ghost" href="https://gitee.com/szliren/gimbalx-report-dist/releases/download/v1.0.0/GimbalX-Report-1.0.0-linux-x86_64.tar.gz.part02">下载 part02</a>
+      </div>
+    </div>
+
+    <p style="margin-top:16px;font-size:14px;color:var(--ink-2)">
+      Linux 包超过单文件上限，切成两卷，合并后再解压：
+    </p>
+    <pre><code>cat GimbalX-Report-1.0.0-linux-x86_64.tar.gz.part01 \
+    GimbalX-Report-1.0.0-linux-x86_64.tar.gz.part02 &gt; GimbalX-Report-1.0.0-linux-x86_64.tar.gz
+sha256sum -c SHA256SUMS --ignore-missing</code></pre>
+
+    <div class="mirrors">
+      <a href="https://gitee.com/szliren/gimbalx-report-dist/releases/tag/v1.0.0">Gitee（国内首选）</a>
+      <a href="https://atomgit.com/terrychen19710516/gimbalx-report-dist/releases/tag/v1.0.0">AtomGit（国内备用）</a>
+      <a href="https://github.com/terrychen111/gimbalx-report-dist/releases/tag/v1.0.0">GitHub（海外）</a>
+      <a href="https://gitee.com/szliren/gimbalx-report-dist/releases/download/v1.0.0/SHA256SUMS">SHA256SUMS</a>
+      <a href="https://gitee.com/szliren/gimbalx-report-dist/blob/master/docs/README.md">安装文档</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>常见问题</h2>
+    <p class="sub">试用前最常被问到的几条。</p>
+
+    <details><summary>试用版有什么限制？</summary>
+      <p>功能不锁、时间不限，唯一差异是：单份报表<strong>渲染后超过 2 页</strong>时，整份文档每页叠加 <code>[试用版 TRIAL]</code> 水印（预览和 PDF/Excel/Word/HTML/SVG/RTF 导出同样生效）；2 页以内无水印。CSV / JSON / XML 数据导出不受影响。试用版同时只允许 1 个登录会话（防账号共享）。</p></details>
+
+    <details><summary>需要装 Java / Python / Docker 吗？</summary>
+      <p>都不需要。免安装包的运行时、依赖、网页前端全部在包里。如果你喜欢容器，也提供单容器 compose 文件；如果已有 Python 3.12 和 Node 18+，也可以源码方式跑。</p></details>
+
+    <details><summary>数据会不会外传？</summary>
+      <p>不会。程序只连你配置的数据源；授权校验是本地离线验签，不联网、不激活、不上报使用数据、不采集硬件序列号。机器码由操作系统安装标识算出，只用于绑定授权。</p></details>
+
+    <details><summary>能不能嵌到我们自己的系统里？</summary>
+      <p>可以。运行端支持只读浏览页和 Embed 短期 Token，把报表以 URL 形式嵌进你的业务系统，不需要对方登录你的后台。也提供 REST API 直接触发渲染与导出。</p></details>
+
+    <details><summary>支持哪些数据库？</summary>
+      <p>MySQL、PostgreSQL、SQL Server、Oracle、ClickHouse、ODBC，以及 CSV / Excel / JSON / XML 文件。多个数据源之间可以做内存 JOIN（DuckDB），不需要在数据库里建视图。</p></details>
+
+    <details><summary>正式版怎么授权？要重新下载吗？</summary>
+      <p>不用。同一份安装包，导入 <code>.lic</code> 文件即转正式版，立即生效、无需重启。授权按机器码绑定，可一份文件绑定多台机器，按 <code>seats</code> 限制同时在线人数。</p></details>
+
+    <details><summary>源码开源吗？</summary>
+      <p>不开源。这里发布的是编译打包后的安装包与文档；需要二次开发或私有化定制，可以谈 OEM 合作。</p></details>
+
+    <details><summary>macOS 能用吗？</summary>
+      <p>本期没有发布 macOS 二进制包（需要在 Mac 上构建），可以先用 Docker Desktop 跑单容器版本。</p></details>
+  </div>
+</section>
+
+<section class="alt" id="license">
+  <div class="wrap">
+    <h2>授权与咨询</h2>
+    <p class="sub">按席位授权，小团队也用得起；离线签发，不依赖任何激活服务。</p>
+    <div class="grid3" style="margin-bottom:22px">
+      <div class="card"><h3>先试用</h3><p>下载即用，不限期、不锁功能。用 2 页以内的报表做业务样张验证完全够用。</p></div>
+      <div class="card"><h3>按需购买</h3><p>按<strong>同时在线席位</strong>授权：单人、3 人、5 人或不限。同一份文件可绑定多台机器。</p></div>
+      <div class="card"><h3>OEM / 嵌入</h3><p>集成商可以把报表模块嵌进自己的产品交付客户，支持白标与批量授权。</p></div>
+    </div>
+    <div class="qr">
+      <img src="assets/wechat-qr.png" alt="作者微信二维码">
+      <div>
+        <div class="t">加作者微信：咨询授权 / 报价 / 私有化部署</div>
+        <p class="d">发一句「报表试用」即可。也可以先在「系统设置 → 授权」复制机器码，一并发过来能省一轮沟通。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 GimbalX Report（万向报表）· 商业授权产品，源码不公开</div>
+    <div>
+      <a href="https://gitee.com/szliren/gimbalx-report-dist/releases/tag/v1.0.0">Gitee</a> ·
+      <a href="https://atomgit.com/terrychen19710516/gimbalx-report-dist/releases/tag/v1.0.0">AtomGit</a> ·
+      <a href="https://github.com/terrychen111/gimbalx-report-dist/releases/tag/v1.0.0">GitHub</a> ·
+      <a href="https://gitee.com/szliren/gimbalx-report-dist/blob/master/docs/README.md">文档</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
