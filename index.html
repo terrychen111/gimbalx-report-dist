@@ -109,6 +109,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
       <a href="#why">为什么选它</a>
       <a href="#features">功能</a>
       <a href="#compare">对比</a>
+      <a href="http://119.29.199.205:8080/" target="_blank" rel="noopener">在线试用</a>
       <a href="#download">下载</a>
       <a href="#faq">常见问题</a>
       <a href="#license">授权</a>
@@ -126,6 +127,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
     <div class="cta">
       <a class="btn btn-primary" href="#download">下载 Windows 版（79 MB）</a>
       <a class="btn btn-ghost" href="#download">Linux 版 / 其他形态</a>
+      <a class="btn btn-ghost" href="http://119.29.199.205:8080/" target="_blank" rel="noopener">在线试用（免安装）</a>
     </div>
     <div class="meta">Windows 10/11 x64 · Linux x86_64（glibc ≥ 2.17）· 免安装 · 试用不限期、不锁功能 · 数据不出内网</div>
 
@@ -230,6 +232,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
     </div>
 
     <p style="margin-top:16px;font-size:14px;color:var(--ink-2)">
+      不想下载？<a href="http://119.29.199.205:8080/" target="_blank" rel="noopener"><strong>直接在线试用</strong></a>：浏览器打开即用，演示账号 <code>demo</code> / <code>Demo@2026</code>，可连示例数据、拖字段、预览分页。
+    </p>
+
+    <p style="margin-top:16px;font-size:14px;color:var(--ink-2)">
       Linux 包超过单文件上限，切成两卷，合并后再解压：
     </p>
     <pre><code>cat GimbalX-Report-1.0.0-linux-x86_64.tar.gz.part01 \
@@ -250,6 +256,9 @@ sha256sum -c SHA256SUMS --ignore-missing</code></pre>
   <div class="wrap">
     <h2>常见问题</h2>
     <p class="sub">试用前最常被问到的几条。</p>
+
+    <details><summary>必须先下载安装才能试吗？</summary>
+      <p>不用。直接打开 <a href="http://119.29.199.205:8080/" target="_blank" rel="noopener"><strong>在线试用</strong></a>，演示账号 <code>demo</code> / <code>Demo@2026</code>，进设计器就能连示例数据、拖字段、预览分页。想连自己的数据库、导出无水印文档，再下载本地版——在线实例是共享环境，数据随时可能重置。</p></details>
 
     <details><summary>试用版有什么限制？</summary>
       <p>功能不锁、时间不限，唯一差异是：单份报表<strong>渲染后超过 2 页</strong>时，整份文档每页叠加 <code>[试用版 TRIAL]</code> 水印（预览和 PDF/Excel/Word/HTML/SVG/RTF 导出同样生效）；2 页以内无水印。CSV / JSON / XML 数据导出不受影响。试用版同时只允许 1 个登录会话（防账号共享）。</p></details>
