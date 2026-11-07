@@ -18,8 +18,8 @@ https://gh-proxy.com/https://github.com/terrychen111/gimbalx-report-dist/release
 
 | 文件 | 适用 | 大小 |
 |---|---|---|
-| `GimbalX-Report-1.0.0-win64.zip` | Windows 10/11 x64 | 79.4 MB |
-| `GimbalX-Report-1.0.0-linux-x86_64.tar.gz.part01` `part02` | Linux x86_64（glibc ≥ 2.17） | 90.0 MB + 66.8 MB |
+| `GimbalX-Report-1.0.0-win64.zip` | Windows 10/11 x64 | 82.2 MB |
+| `GimbalX-Report-1.0.0-linux-x86_64.tar.gz.part01` `part02` | Linux x86_64（glibc ≥ 2.17） | 90.0 MB + 67.6 MB |
 | `SHA256SUMS` / `SHA256SUMS.parts` | 整包 / 分卷校验值 | 小文件 |
 | `MERGE.md` | 分卷合并说明 | 小文件 |
 

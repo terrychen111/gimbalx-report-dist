@@ -10,8 +10,8 @@
 
 | 文件 | 说明 |
 |---|---|
-| `GimbalX-Report-1.0.0-win64.zip` | Windows 10/11 x64 免安装包（内置 Python 运行时，79.4 MB） |
-| `GimbalX-Report-1.0.0-linux-x86_64.tar.gz` | Linux x86_64 免安装包（内置 CPython 运行时，156.8 MB，无需 Docker/系统 Python） |
+| `GimbalX-Report-1.0.0-win64.zip` | Windows 10/11 x64 免安装包（内置 Python 运行时，82.2 MB） |
+| `GimbalX-Report-1.0.0-linux-x86_64.tar.gz` | Linux x86_64 免安装包（内置 CPython 运行时，157.6 MB，无需 Docker/系统 Python） |
 | `docker-compose.single.yml` | Docker 单容器部署文件（配合发布的镜像标签使用） |
 | `SHA256SUMS` | 校验值：`sha256sum -c SHA256SUMS`（Windows：`Get-FileHash` 对比） |
 
@@ -22,6 +22,23 @@
   导出 PDF 内嵌位图（Windows 包与 Linux 包各自验证）。
 - 打包时不再生成第三方字节码缓存：整包 `.pyc` 数量为 0（pip 加 `--no-compile` + 打包前整包清理校验）。
 - Docker 单容器镜像同步改为编译授权核心（镜像内无明文 `.py`）。
+
+## 本次重建（2026-11-06，版本号不变）
+
+本次重建包含 SQLite 数据源支持与演示站示例数据改造，安装包内容已与仓库同步：
+
+- **新增 SQLite 数据源**：`Path=` / `File=` / `Data Source=` / 裸路径 / `file:...?mode=ro` 都能识别，
+  默认只读打开（写入需 `Mode=rw`），字段树支持表与视图、类型/可空，错误提示中文化；
+  文件型数据源支持直接上传 `.db`／`.sqlite`／`.sqlite3`（校验 SQLite 文件头）。
+- **演示档位内置示例库**：`DEPLOY_PROFILE=demo` 时自动生成只读 SQLite 示例库（客户 / 产品 / 订单 +
+  订单明细视图）与只读示例连接；配合 `DEMO_SAMPLE_CONNECTIONS` 还可接入只读 MySQL 示例库，
+  让访客在无外部实例的情况下走通「建数据源 → 选表 → 绑字段 → 出报表」。
+- **品牌与界面**：字标 `GimbalX` 的 X 使用商标同款橙红渐变；登录页与首页图标统一带版本号，
+  避免浏览器缓存旧图标。
+- **打包**：Windows 包重新编译授权/会话核心（6 个 `.pyd`，包内无对应明文 `.py`）；
+  Linux 包重新编译为 `.so` 并完成导入冒烟（`compiled-ok`）。
+- 校验值：`win64.zip` = `bc9179b5d83bbe282d943e0b9d86e209439772729f358d01ac47a221481095f8`；`linux-x86_64.tar.gz` = `fbcd0e7e92be395be34d82a848d6f3ed515cd086dafcbddd057553fcdecab0d1`；
+  分卷 `part01 + part02`（90.0 + 67.6 MB）合并后与整包一致。
 
 ## Windows 单机版（不用 Docker）
 
